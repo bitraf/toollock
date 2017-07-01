@@ -1,4 +1,3 @@
-
 #include <WiFiClient.h>
 #include <WiFiClientSecure.h>
 #include <ESP8266WiFi.h>
@@ -30,7 +29,7 @@ msgflo::Engine *engine;
 msgflo::InPort *lockPort;
 long nextButtonCheck = 0;
 
-const auto participant = msgflo::Participant("iot/TheLock", cfg.role);
+auto participant = msgflo::Participant("iot/TheLock", cfg.role);
 
 void setup() {
   Serial.begin(115200);
@@ -41,7 +40,8 @@ void setup() {
 
   Serial.printf("Configuring wifi: %s\r\n", cfg.wifiSsid.c_str());
   WiFi.begin(cfg.wifiSsid.c_str(), cfg.wifiPassword.c_str());
-
+  participant.icon = "lock";
+  
   mqttClient.setServer(cfg.mqttHost, cfg.mqttPort);
   mqttClient.setClient(wifiClient);
 
