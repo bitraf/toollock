@@ -1,17 +1,14 @@
-#TheLock
-
+# TheLock
 An electronic lock connected via wireless (Wi-Fi) to MsgFlo / MQTT. It can be used for locking things like tools, doors, etc.
 
-##Things needed
+## Things needed
 Microcontroller - ESP8266 or similar. We used a Wemos D1 board.
 
-##Circuit scheme
-
-##Setup
+## Setup
 Setup wifi connection: Add a file `Config.h` defining parameters `WIFI_SSID` and `WIFI_PASSWORD`
 
-##State
+## State
 In progress
 
-##License
+## License
 MIT
