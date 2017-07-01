@@ -60,12 +60,10 @@ void setup() {
       digitalWrite(cfg.lockPin, on);
   });
 
-  
-  Serial.printf("Led pin: %d\r\n", cfg.ledPin);
-  Serial.printf("Button pin: %d\r\n", cfg.lockPin);
+  Serial.printf("lock pin: %d\r\n", cfg.lockPin);
 
   pinMode(cfg.lockPin, OUTPUT);
-//  pinMode(cfg.ledPin, OUTPUT);
+
 }
 
 void loop() {
@@ -84,7 +82,7 @@ void loop() {
     }
   }
 
-  // TODO: check for statechange. If changed, send right away. Else only send every 3 seconds or so
+// TODO: check for statechange. If changed, send right away. Else only send every 3 seconds or so
 //  if (millis() > nextButtonCheck) {
 //    const bool pressed = digitalRead(cfg.lockPin);
 //    lockPort->send(pressed ? "true" : "false");
