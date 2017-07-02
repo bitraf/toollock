@@ -53,6 +53,8 @@ void setup() {
 
 //  lockPort = engine->addOutPort("button-event", "any", cfg.role + "/event");
 
+  digitalWrite(cfg.lockPin, LOW);
+  
   lockPort = engine->addInPort("lock", "boolean", cfg.role+"/lock",
   [](byte *data, int length) -> void {
       const std::string in((char *)data, length);
@@ -67,7 +69,6 @@ void setup() {
   });
 
   Serial.printf("lock pin: %d\r\n", cfg.lockPin);
-
   pinMode(cfg.lockPin, OUTPUT);
 
 }

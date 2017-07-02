@@ -19,16 +19,15 @@ class OpenToolLock(msgflo.Participant):
     msgflo.Participant.__init__(self, d, role)
 
   def process(self, inport, msg):
-    gevent.Greenlet.spawn(self.worker)
-    #self.send('out', msg.data)
-    #if self.state:
-    #  self.state = False
-    #else:
-    #  self.state = True
-    #self.send('out', self.state)
-    #print "%s sent" % self.state
-    self.ack(msg)
+    #gevent.Greenlet.spawn(self.worker)
+    if msg.data == '1':
+      self.state = True
+    else:
+      self.state = False
+    self.send('out', self.state)
+    #self.ack(msg)
     
+  #unused
   def worker(self):
     while (True):
       self.send('out', True)
