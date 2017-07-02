@@ -26,17 +26,18 @@ struct Config {
 } cfg;
 
 enum lockState {
-  locked = 0, takeTool, toolTaken, n_states
+  locked = 0, takeTool, toolTaken, lockInit, n_states
 };
 
 const char *stateNames[n_states] = {
   "locked",
   "takeTool",
   "toolTaken",
+  "lockInit"
 };
 
 long keyCheck = 0;
-lockState state = lockState::locked;
+lockState state = lockState::lockInit;
 int takeToolCheck = 0;
 int takeToolTimeout = 0;
 
@@ -77,7 +78,7 @@ void setup() {
     if (!on && state == lockState::locked) {
 //      digitalWrite(cfg.lockPin, LOW);
       state = lockState::takeTool;
-      takeToolTimeout = millis() + 30000;
+      takeToolTimeout = millis() + 5000;
     }
   });
 
@@ -101,23 +102,29 @@ void loop() {
       Serial.println("Lost wifi connection.");
     }
   }
-
+      const bool keyPresent = digitalRead(cfg.sensorPin);
+      if (state == lockState::lockInit) {
+        if (keyPresent) state = lockState::locked;
+        else state = lockState::toolTaken;
+      }
+      if (!keyPresent && state == lockState::takeTool) {
+         state = lockState::toolTaken;
+      }
+      
+      if (keyPresent && state == lockState::toolTaken){
+        state = lockState::locked;
+      }
+      
+      if (millis() > keyCheck) {
+        Serial.printf("%s, %d\n", stateNames[state], keyPresent);
+        keyCheck += 500;
+      }
+      
   // TODO: check for statechange. If changed, send right away. Else only send every 3 seconds or so
   if (millis() > takeToolTimeout && state == lockState::takeTool) {
     state = lockState::locked;
   }
   
-      const bool keyPresent = digitalRead(cfg.sensorPin);
-      if (!keyPresent && state == lockState::takeTool) {
-         state == lockState::toolTaken;
-      }
-
-      if (keyPresent && state == lockState::toolTaken){
-        state == lockState::locked;
-      }
-      
-      Serial.printf("%s, %d\n", stateNames[state], keyPresent);
-
   if (state == lockState::locked) {
     digitalWrite(cfg.lockPin, HIGH);
   } else {
