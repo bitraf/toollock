@@ -1,0 +1,189 @@
+EESchema Schematic File Version 2
+LIBS:power
+LIBS:device
+LIBS:transistors
+LIBS:conn
+LIBS:linear
+LIBS:regul
+LIBS:74xx
+LIBS:cmos4000
+LIBS:adc-dac
+LIBS:memory
+LIBS:xilinx
+LIBS:microcontrollers
+LIBS:dsp
+LIBS:microchip
+LIBS:analog_switches
+LIBS:motorola
+LIBS:texas
+LIBS:intel
+LIBS:audio
+LIBS:interface
+LIBS:digital-audio
+LIBS:philips
+LIBS:display
+LIBS:cypress
+LIBS:siliconi
+LIBS:opto
+LIBS:atmel
+LIBS:contrib
+LIBS:valves
+LIBS:ESP8266
+LIBS:TheLock-schematics-cache
+EELAYER 25 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title "TheLock"
+Date ""
+Rev ""
+Comp "bitraf"
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L GNDREF #PWR?
+U 1 1 5957DA2E
+P 8000 5700
+F 0 "#PWR?" H 8000 5450 50  0001 C CNN
+F 1 "GNDREF" H 8000 5550 50  0000 C CNN
+F 2 "" H 8000 5700 50  0001 C CNN
+F 3 "" H 8000 5700 50  0001 C CNN
+	1    8000 5700
+	1    0    0    -1  
+$EndComp
+$Comp
+L +12V #PWR?
+U 1 1 5957DA45
+P 8000 4600
+F 0 "#PWR?" H 8000 4450 50  0001 C CNN
+F 1 "+12V" H 8000 4740 50  0000 C CNN
+F 2 "" H 8000 4600 50  0001 C CNN
+F 3 "" H 8000 4600 50  0001 C CNN
+	1    8000 4600
+	1    0    0    -1  
+$EndComp
+$Comp
+L BS107 Q?
+U 1 1 5957E897
+P 9100 5350
+F 0 "Q?" H 9300 5425 50  0000 L CNN
+F 1 "IPP055N03L (symbol BS107)" H 9300 5350 50  0000 L CNN
+F 2 "TO_SOT_Packages_THT:TO-92_Molded_Narrow" H 9300 5275 50  0001 L CIN
+F 3 "" H 9100 5350 50  0001 L CNN
+	1    9100 5350
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	9200 5700 9200 5550
+Wire Wire Line
+	7750 5700 9200 5700
+$Comp
+L L L?
+U 1 1 5957E9AE
+P 9200 4750
+F 0 "L?" V 9150 4750 50  0000 C CNN
+F 1 "solenoid" V 9275 4750 50  0000 C CNN
+F 2 "" H 9200 4750 50  0001 C CNN
+F 3 "" H 9200 4750 50  0001 C CNN
+	1    9200 4750
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	9200 5150 9200 4900
+Wire Wire Line
+	7650 4600 9200 4600
+Text GLabel 7900 5400 0    60   Input ~ 0
+controlsignal
+Wire Wire Line
+	7900 5400 8900 5400
+$Comp
+L R R?
+U 1 1 5957EABF
+P 8150 5550
+F 0 "R?" V 8230 5550 50  0000 C CNN
+F 1 "10k" V 8150 5550 50  0000 C CNN
+F 2 "" V 8080 5550 50  0001 C CNN
+F 3 "" H 8150 5550 50  0001 C CNN
+	1    8150 5550
+	1    0    0    -1  
+$EndComp
+$Comp
+L ESP8266EX U?
+U 1 1 5957F0BE
+P 3150 5200
+F 0 "U?" H 2250 5900 60  0000 C CNN
+F 1 "ESP8266EX" H 2300 5800 60  0000 C CNN
+F 2 "" H 2250 5900 60  0000 C CNN
+F 3 "" H 2250 5900 60  0000 C CNN
+	1    3150 5200
+	1    0    0    -1  
+$EndComp
+Text GLabel 5400 5050 0    60   Output ~ 0
+controlsignal
+Wire Wire Line
+	4750 5050 4150 5050
+$Comp
+L GNDREF #PWR?
+U 1 1 5957F2C4
+P 1300 4100
+F 0 "#PWR?" H 1300 3850 50  0001 C CNN
+F 1 "GNDREF" H 1300 3950 50  0000 C CNN
+F 2 "" H 1300 4100 50  0001 C CNN
+F 3 "" H 1300 4100 50  0001 C CNN
+	1    1300 4100
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1300 4100 2700 4100
+Wire Wire Line
+	2700 4100 2700 4400
+$Comp
+L PWR_FLAG #FLG?
+U 1 1 5957F9EE
+P 7750 5700
+F 0 "#FLG?" H 7750 5775 50  0001 C CNN
+F 1 "PWR_FLAG" H 7750 5850 50  0000 C CNN
+F 2 "" H 7750 5700 50  0001 C CNN
+F 3 "" H 7750 5700 50  0001 C CNN
+	1    7750 5700
+	1    0    0    -1  
+$EndComp
+Connection ~ 8000 5700
+$Comp
+L PWR_FLAG #FLG?
+U 1 1 5957FBFD
+P 7650 4600
+F 0 "#FLG?" H 7650 4675 50  0001 C CNN
+F 1 "PWR_FLAG" H 7650 4750 50  0000 C CNN
+F 2 "" H 7650 4600 50  0001 C CNN
+F 3 "" H 7650 4600 50  0001 C CNN
+	1    7650 4600
+	1    0    0    -1  
+$EndComp
+Connection ~ 8000 4600
+$Comp
+L +3.3V #PWR?
+U 1 1 5957FD45
+P 1300 4850
+F 0 "#PWR?" H 1300 4700 50  0001 C CNN
+F 1 "+3.3V" H 1300 4990 50  0000 C CNN
+F 2 "" H 1300 4850 50  0001 C CNN
+F 3 "" H 1300 4850 50  0001 C CNN
+	1    1300 4850
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1300 4850 2000 4850
+Wire Wire Line
+	2000 5050 1800 5050
+Wire Wire Line
+	1800 4850 1800 5150
+Connection ~ 1800 4850
+Wire Wire Line
+	1800 5150 2000 5150
+Connection ~ 1800 5050
+$EndSCHEMATC
