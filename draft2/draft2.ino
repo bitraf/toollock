@@ -16,7 +16,8 @@ struct Config {
   const String wifiSsid = WIFI_SSID;
   const String wifiPassword = WIFI_PASSWORD;
 
-  const char *mqttHost = "mqtt.bitraf.no";
+//  const char *mqttHost = "mqtt.bitraf.no";
+  const char *mqttHost = "10.13.37.127";
   const int mqttPort = 1883;
 
   const char *mqttUsername = "myuser";
@@ -56,8 +57,13 @@ void setup() {
   [](byte *data, int length) -> void {
       const std::string in((char *)data, length);
       const boolean on = (in == "1" || in == "true");
-      Serial.printf("data: %s/n", in.c_str());
-      digitalWrite(cfg.lockPin, on);
+      Serial.printf("data: %s\n", in.c_str());
+      if (on) {
+        digitalWrite(cfg.lockPin, HIGH);
+      }
+      else {
+        digitalWrite(cfg.lockPin, LOW);
+      }
   });
 
   Serial.printf("lock pin: %d\r\n", cfg.lockPin);
