@@ -16,3 +16,7 @@ In progress
 
 ## License
 MIT
+
+## State machine
+
+![State machine diagram](./doc/states.png)

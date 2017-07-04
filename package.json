@@ -1,0 +1,26 @@
+{
+  "name": "bitraf-thelock",
+  "version": "0.0.0",
+  "description": "An electronic lock connected via wireless (Wi-Fi) to MsgFlo / MQTT. It can be used for locking things like tools, doors, etc.",
+  "main": "index.js",
+  "directories": {
+    "doc": "doc"
+  },
+  "scripts": {
+    "statemachine-update": "./node_modules/.bin/coffee doc/states.coffee > doc/states.json && ./node_modules/.bin/finito dot doc/states.json > doc/states.dot && dot -T png doc/states.dot -Ksfdp > doc/states.png",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/einsmein/bitraf-thelock.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/einsmein/bitraf-thelock/issues"
+  },
+  "homepage": "https://github.com/einsmein/bitraf-thelock#readme",
+  "devDependencies": {
+    "finitosm": "~0.1.0"
+  }
+}
