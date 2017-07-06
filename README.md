@@ -11,7 +11,10 @@ It makes it possible to:
 ![First funtional prototype](./doc/first-prototype.jpg)
 
 Each lock has a key with a matching key pattern. The key is physically attached to the tool using a wire.
-An optical sensor detects that the right key is used.
+An optical sensor detects that the right key is used. IR leds normally light through, only a matching key will fully block light.
+
+![Key & lock geometry](./doc/key-geometry.png)
+
 The key and lock can be CNC-milled, lasercut or 3d-printed.
 
 ## State
@@ -42,12 +45,18 @@ The key and lock can be CNC-milled, lasercut or 3d-printed.
 * Support for multiple locks on one board (4-8 pcs)
 * Design a PCB for the electronics
 * Software: Send state changes out on MQTT
-* Update design to new components
-* Write tool for generating key/lock geometry for whole series 
+* Update design to new hardware components
+* Add a casing/box for 4-8 locks. Securely wall/table mountable.
+* Avoid symmetrically shaped keys (can open eachother). Add a tap on side?
+* Write tool for generating key/lock geometry for a whole series, incl names.
 * Fabricate first production version
 
 ## License
 MIT
+
+## Made by
+
+[einsmein](https://github.com/einsmein), [tingox](https://github.com/tingox) and [jonnor](https://github.com/jonnor)
 
 ## State machine
 
@@ -55,4 +64,10 @@ MIT
 
 ## Electronics
 
+Developed in KiCAD.
 ![Schemantic used for first protototype](./doc/schemantic.png)
+
+## Mechanics
+
+Developed in FreeCAD.
+![Lock model](./doc/lock-model.png)
