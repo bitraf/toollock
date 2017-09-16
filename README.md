@@ -23,6 +23,7 @@ The key and lock can be CNC-milled, lasercut or 3d-printed.
 * First functional prototype was built during 2-day hackathon
 
 ## Things needed
+
 * Microcontroller - ESP8266 or similar. We used a Wemos D1 board.
 * actuator - we used a solenoid that is rated for 12V (it actually actuates at about 7V, but slowly), it draws about 0.3 - 0.7 A. Alternatives:
 [1](https://www.banggood.com/12V-24V-Electronic-Door-Lock-Rfid-Access-Control-for-Cabinet-Drawer-p-1011146.html)
@@ -41,15 +42,20 @@ The key and lock can be CNC-milled, lasercut or 3d-printed.
 
 ## TODO
 
-* Purchase proper cabinet lock solenoids
-* Support for multiple locks on one board (4-8 pcs)
-* Design a PCB for the electronics
+v1.0: First fabricated version
+
+* Software: Support for multiple locks on one uC (4-5 pcs)
 * Software: Send state changes out on MQTT
-* Update design to new hardware components
-* Add a casing/box for 4-8 locks. Securely wall/table mountable.
-* Avoid symmetrically shaped keys (can open eachother). Add a tap on side?
-* Write tool for generating key/lock geometry for a whole series, incl names.
-* Fabricate first production version
+* Electronics: Design PCB(s), millable
+* Mechanics: Update mechanical design to new hardware components
+* Mechanics: Add a casing/box for 4-8 locks. Securely wall/table mountable.
+* Mechanics: Avoid symmetrically shaped keys (can open eachother). Add a tap on side?
+* Tools/Mechanics: Write script(s) for generating key/lock geometry for a whole series, incl names.
+
+Maybe
+
+* Include a LED to show taken/not-state. Light when tool is there, or not?
+
 
 ## License
 MIT
