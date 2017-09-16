@@ -22,7 +22,9 @@ The key and lock can be CNC-milled, lasercut or 3d-printed.
 
 * First functional prototype was built during 2-day hackathon
 
-## Things needed
+## Bill of Materials
+
+[Google Doc](https://docs.google.com/spreadsheets/d/1zNnj4h8AQoaYpxoNCeb7HHqZF6n6yWtV7tDY7eSM0z4/edit?usp=sharing)
 
 * Microcontroller - ESP8266 or similar. We used a Wemos D1 board.
 * actuator - we used a solenoid that is rated for 12V (it actually actuates at about 7V, but slowly), it draws about 0.3 - 0.7 A. Alternatives:
