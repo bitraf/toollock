@@ -50,9 +50,11 @@ v1.0: First fabricated version
 * Software: Support for multiple locks on one uC (4-5 pcs)
 * Software: Send state changes out on MQTT
 * Electronics: Design PCB(s), millable
-* Mechanics: Update mechanical design to new hardware components
+* Mechanics: Complete lock module.
+Should be mountable to front of chassis, with documented size/depth of opening.
+Need way to attach PCB(s).
+Need to attach solenoid.
 * Mechanics: Add a casing/box for 4-8 locks. Securely wall/table mountable.
-* Mechanics: Avoid symmetrically shaped keys (can open eachother). Add a tap on side?
 * Tools/Mechanics: Write script(s) for generating key/lock geometry for a whole series, incl names.
 
 Maybe

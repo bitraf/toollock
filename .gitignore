@@ -1,3 +1,4 @@
 Config.h
 node_modules/
 tests/test_toollock
+*.fcstd1
