@@ -2,6 +2,7 @@
 #include "../draft2/toollock.hpp"
 
 #include <assert.h>
+#include <iostream>
 
 int main() {
 
@@ -19,4 +20,6 @@ int main() {
     state = nextState(config, state, unlockWithKeyPresent);
 
     assert(state.state == lockState::takeTool);
+
+    std::cout << "All test passed" << std::endl;
 }
