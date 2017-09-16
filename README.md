@@ -17,10 +17,11 @@ An optical sensor detects that the right key is used. IR leds normally light thr
 
 The key and lock can be CNC-milled, lasercut or 3d-printed.
 
-## State
+## Status
 **Proof of concept**
 
-* First functional prototype was built during 2-day hackathon
+* July 2017: Functional prototype was built during 2-day hackathon
+* First production version planned for October 2017
 
 ## Bill of Materials
 
