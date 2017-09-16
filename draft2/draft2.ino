@@ -6,11 +6,13 @@
 #include <Msgflo.h>
 
 #include "./Config.h"
+#include "./toollock.hpp"
 
 struct Config {
   const String role = "public/toollock/1";
 
-  const int ledPin = D4;
+  const LockConfig lockConfig;
+
   const int sensorPin = D5;
   const int lockPin = D0;
 
@@ -25,21 +27,45 @@ struct Config {
   const char *mqttPassword = "mypassword";
 } cfg;
 
-enum lockState {
-  locked = 0, takeTool, toolTaken, lockInit, n_states
+struct State {
+  LockState lock;
+  long nextUpdateMessage = 0;
 };
 
-const char *stateNames[n_states] = {
-  "locked",
-  "takeTool",
-  "toolTaken",
-  "lockInit"
-};
+Input getInput(Config config, bool requestUnlock) {
+  return {
+    requestUnlock,
+    digitalRead(config.sensorPin),
+    millis(),
+  };
+}
 
-long keyCheck = 0;
-lockState state = lockState::lockInit;
-int takeToolCheck = 0;
-int takeToolTimeout = 0;
+bool setOutput(Config config, State state) {
+
+  digitalWrite(config.lockPin, (state.lock.state == lockState::locked) ? HIGH : LOW);
+
+  return true;
+}
+
+State updateState(const Config &config, State current, bool requestUnlock=false) {
+  State next;
+  Input input = getInput(config, requestUnlock);
+
+  next.lock = nextState(config.lockConfig, current.lock, input);
+  setOutput(cfg, next);
+
+  if (next.lock.state != current.lock.state) {
+    // TODO: send lock state
+  }
+  if (input.currentTime > current.nextUpdateMessage) {
+    // TODO: send lock states
+    next.nextUpdateMessage = input.currentTime + 30*1000; 
+  }
+
+  return next;
+}
+
+State state;
 
 WiFiClient wifiClient;
 PubSubClient mqttClient;
@@ -66,25 +92,22 @@ void setup() {
 
   engine = msgflo::pubsub::createPubSubClientEngine(participant, &mqttClient, clientId.c_str());
 
+  // FIXME: send lock state
   //  lockPort = engine->addOutPort("button-event", "any", cfg.role + "/event");
 
-  digitalWrite(cfg.lockPin, LOW);
-
-  lockPort = engine->addInPort("lock", "boolean", cfg.role + "/lock",
+  lockPort = engine->addInPort("unlock", "boolean", cfg.role + "/unlock",
   [](byte * data, int length) -> void {
     const std::string in((char *)data, length);
-    const boolean on = (in == "1" || in == "true");
     Serial.printf("data: %s\n", in.c_str());
-    if (!on && state == lockState::locked) {
-//      digitalWrite(cfg.lockPin, LOW);
-      state = lockState::takeTool;
-      takeToolTimeout = millis() + 5000;
-    }
+    const boolean requestUnlock = (in == "1" || in == "true");
+    state = updateState(cfg, state, requestUnlock);
   });
 
   Serial.printf("lock pin: %d\r\n", cfg.lockPin);
   pinMode(cfg.lockPin, OUTPUT);
   pinMode(cfg.sensorPin, INPUT);
+
+  digitalWrite(cfg.lockPin, LOW);
 }
 
 void loop() {
@@ -102,33 +125,7 @@ void loop() {
       Serial.println("Lost wifi connection.");
     }
   }
-      const bool keyPresent = digitalRead(cfg.sensorPin);
-      if (state == lockState::lockInit) {
-        if (keyPresent) state = lockState::locked;
-        else state = lockState::toolTaken;
-      }
-      if (!keyPresent && state == lockState::takeTool) {
-         state = lockState::toolTaken;
-      }
-      
-      if (keyPresent && state == lockState::toolTaken){
-        state = lockState::locked;
-      }
-      
-      if (millis() > keyCheck) {
-        Serial.printf("%s, %d\n", stateNames[state], keyPresent);
-        keyCheck += 500;
-      }
-      
-  // TODO: check for statechange. If changed, send right away. Else only send every 3 seconds or so
-  if (millis() > takeToolTimeout && state == lockState::takeTool) {
-    state = lockState::locked;
-  }
-  
-  if (state == lockState::locked) {
-    digitalWrite(cfg.lockPin, HIGH);
-  } else {
-    digitalWrite(cfg.lockPin, LOW); 
-  }
+
+  state = updateState(cfg, state);
 }
 
