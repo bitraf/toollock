@@ -1,5 +1,5 @@
 
-#include "../draft2/toollock.hpp"
+#include "../toollock/toollock.hpp"
 
 #include <assert.h>
 #include <iostream>
