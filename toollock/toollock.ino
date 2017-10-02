@@ -42,7 +42,7 @@ Input getInput(Config config, bool requestUnlock) {
 
 bool setOutput(Config config, State state) {
 
-  digitalWrite(config.lockPin, (state.lock.state == lockState::locked) ? HIGH : LOW);
+  digitalWrite(config.lockPin, (state.lock.state == lockState::locked) ? LOW : HIGH);
 
   return true;
 }
