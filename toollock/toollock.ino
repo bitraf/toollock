@@ -79,6 +79,7 @@ WiFiClient wifiClient;
 PubSubClient mqttClient;
 msgflo::Engine *engine;
 msgflo::InPort *lockPort;
+msgflo::OutPort *errorPort;
 auto participant = msgflo::Participant("bitraf/ToolLock", cfg.role);
 
 void setup() {
@@ -101,17 +102,25 @@ void setup() {
   engine = msgflo::pubsub::createPubSubClientEngine(participant, &mqttClient, clientId.c_str());
 
   statePort = engine->addOutPort("state", "string", cfg.role + "/state");
+  errorPort = engine->addOutPort("state", "string", cfg.role + "/error");
 
   lockPort = engine->addInPort("unlock", "boolean", cfg.role + "/unlock",
   [](byte * data, int length) -> void {
     const std::string in((char *)data, length);
-    Serial.printf("data: %s\n", in.c_str());
     const boolean requestUnlock = (in == "1" || in == "true");
-    // TODO: error if getting unexpected input data
+    if (!requestUnlock) {
+       errorPort->send("Error: Unknown unlock message: " + String(in.c_str()));
+       return;
+    }
+    if (state.lock.state != lockState::toolPresent) {
+      errorPort->send("Error: Tool is not present, cannot unlock: " + String(stateNames[state.lock.state]));
+      return;
+    }
+    
     state = updateState(cfg, state, requestUnlock);
   });
 
-  Serial.printf("lock pin: %d\r\n", cfg.lockPin);
+
   pinMode(cfg.lockPin, OUTPUT);
   pinMode(cfg.sensorPin, INPUT);
 
