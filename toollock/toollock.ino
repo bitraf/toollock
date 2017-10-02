@@ -102,7 +102,7 @@ void setup() {
   engine = msgflo::pubsub::createPubSubClientEngine(participant, &mqttClient, clientId.c_str());
 
   statePort = engine->addOutPort("state", "string", cfg.role + "/state");
-  errorPort = engine->addOutPort("state", "string", cfg.role + "/error");
+  errorPort = engine->addOutPort("error", "string", cfg.role + "/error");
 
   lockPort = engine->addInPort("unlock", "boolean", cfg.role + "/unlock",
   [](byte * data, int length) -> void {
