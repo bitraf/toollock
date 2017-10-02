@@ -44,7 +44,8 @@ Input getInput(Config config, bool requestUnlock) {
 
 bool setOutput(Config config, State state, bool sendState) {
 
-  digitalWrite(config.lockPin, (state.lock.state == lockState::locked) ? LOW : HIGH);
+  const bool unlock = (state.lock.state == lockState::takeTool);
+  digitalWrite(config.lockPin, unlock);
   if (sendState) {
     statePort->send(stateNames[state.lock.state]);
   }
@@ -53,7 +54,7 @@ bool setOutput(Config config, State state, bool sendState) {
 }
 
 State updateState(const Config &config, State current, bool requestUnlock=false) {
-  State next;
+  State next = current;
   Input input = getInput(config, requestUnlock);
 
   next.lock = nextState(config.lockConfig, current.lock, input);
