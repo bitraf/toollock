@@ -3,26 +3,26 @@ finito = require 'finitosm'
 
 lock = finito.define 'Tool lock'
   .state 'start'
-  .state 'locked'
-  .state 'takeTool'
+  .state 'toolPresent'
   .state 'toolTaken'
+  .state 'takeTool'
 
   .transition()
-    .from('start').to('locked')._when('key_present')
+    .from('start').to('toolPresent')._when('key_present')
   .transition()
     .from('start').to('toolTaken')._when('no_key')
 
   # claiming the tool
   .transition()
-    .from('locked').to('takeTool')._when('mqtt_unlock()')
+    .from('toolPresent').to('takeTool')._when('mqtt_unlock()')
   .transition()
-    .from('takeTool').to('locked')._when('timeout_key_present')
+    .from('takeTool').to('toolPresent')._when('timeout_key_present')
   .transition()
-    .from('takeTool').to('toolTaken')._when('no_key')
+    .from('takeTool').to('toolTaken')._when('timeout_no_key')
 
   # returning the tool
   .transition()
-    .from('toolTaken').to('locked')._when('key_present')
+    .from('toolTaken').to('toolPresent')._when('key_present')
 
   .initial 'start'
   .done()

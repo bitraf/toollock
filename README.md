@@ -50,9 +50,7 @@ v1.0: First fabricated version
 * Software: Support for multiple locks on one uC (4-5 pcs)
 * Electronics: Design PCB(s), millable
 * Mechanics: Complete lock module.
-Should be mountable to front of chassis, with documented size/depth of opening.
 Need way to attach PCB(s).
-Need to attach solenoid.
 * Tools/Mechanics: Write script(s) for generating key/lock geometry for a whole series, incl names.
 * Mechanics: Add a casing/box for 4-8 locks. Securely wall/table mountable.
 
@@ -81,3 +79,16 @@ Developed in KiCAD.
 
 Developed in FreeCAD.
 ![Lock model](./doc/lock-model.png)
+
+
+SIG: gnd+in
+PWR: 12v+gnd
+OUT: 12v+out
+
+IN
+GND
+12v
+12v
+OUT
+
+

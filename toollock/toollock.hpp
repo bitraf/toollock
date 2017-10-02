@@ -3,7 +3,7 @@
 
 
 struct LockConfig {
-  const int takeToolTime = 5*1000; 
+  const int takeToolTime = 10*1000;
 };
 
 // FIXME: use an enum class
@@ -55,20 +55,16 @@ LockState nextState(const LockConfig &config, const LockState &current, const In
       state.state = lockState::toolTaken;
     }
   }
-
-  // Tool gets taken
-  if (!input.keyPresent && current.state == lockState::takeTool) {
-     state.state = lockState::toolTaken;
-  }
   
   // Tool gets returned
   if (input.keyPresent && current.state == lockState::toolTaken){
     state.state = lockState::toolPresent;
   }
       
-  // Was unlocked but tool did not get taken
+  // Time to take tool is up
   if (input.currentTime > current.takeToolTimeout && current.state == lockState::takeTool) {
-    state.state = lockState::toolPresent;
+    // was either taken or not
+    state.state = (input.keyPresent) ? lockState::toolPresent : lockState::toolTaken;
   }
 
   return state;
