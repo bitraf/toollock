@@ -27,6 +27,8 @@ struct Config {
   const char *mqttPassword = "mypassword";
 } cfg;
 
+msgflo::OutPort *statePort;
+
 struct State {
   LockState lock;
   long nextUpdateMessage = 0;
@@ -40,9 +42,12 @@ Input getInput(Config config, bool requestUnlock) {
   };
 }
 
-bool setOutput(Config config, State state) {
+bool setOutput(Config config, State state, bool sendState) {
 
   digitalWrite(config.lockPin, (state.lock.state == lockState::locked) ? LOW : HIGH);
+  if (sendState) {
+    statePort->send(stateNames[state.lock.state]);
+  }
 
   return true;
 }
@@ -52,15 +57,17 @@ State updateState(const Config &config, State current, bool requestUnlock=false)
   Input input = getInput(config, requestUnlock);
 
   next.lock = nextState(config.lockConfig, current.lock, input);
-  setOutput(cfg, next);
 
+  bool sendState = false;
   if (next.lock.state != current.lock.state) {
-    // TODO: send lock state
+    sendState = true;
   }
-  if (input.currentTime > current.nextUpdateMessage) {
-    // TODO: send lock states
-    next.nextUpdateMessage = input.currentTime + 30*1000; 
+  if (input.currentTime >= current.nextUpdateMessage) {
+    sendState = true;
+    next.nextUpdateMessage = input.currentTime + 30*1000;
   }
+
+  setOutput(cfg, next, sendState);
 
   return next;
 }
@@ -71,7 +78,7 @@ WiFiClient wifiClient;
 PubSubClient mqttClient;
 msgflo::Engine *engine;
 msgflo::InPort *lockPort;
-auto participant = msgflo::Participant("iot/TheLock", cfg.role);
+auto participant = msgflo::Participant("bitraf/ToolLock", cfg.role);
 
 void setup() {
   Serial.begin(115200);
@@ -92,14 +99,14 @@ void setup() {
 
   engine = msgflo::pubsub::createPubSubClientEngine(participant, &mqttClient, clientId.c_str());
 
-  // FIXME: send lock state
-  //  lockPort = engine->addOutPort("button-event", "any", cfg.role + "/event");
+  statePort = engine->addOutPort("state", "string", cfg.role + "/state");
 
   lockPort = engine->addInPort("unlock", "boolean", cfg.role + "/unlock",
   [](byte * data, int length) -> void {
     const std::string in((char *)data, length);
     Serial.printf("data: %s\n", in.c_str());
     const boolean requestUnlock = (in == "1" || in == "true");
+    // TODO: error if getting unexpected input data
     state = updateState(cfg, state, requestUnlock);
   });
 
