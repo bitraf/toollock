@@ -8,14 +8,14 @@ struct LockConfig {
 
 // FIXME: use an enum class
 enum lockState {
-  locked = 0,
+  toolPresent = 0,
   takeTool,
   toolTaken,
   lockInit,
   n_states
 };
 const char *stateNames[n_states] = {
-  "locked",
+  "toolPresent",
   "takeTool",
   "toolTaken",
   "lockInit"
@@ -39,7 +39,7 @@ LockState nextState(const LockConfig &config, const LockState &current, const In
 
   // Unlocking
   if (input.unlockRequested) {
-    if (current.state == lockState::locked) {
+    if (current.state == lockState::toolPresent) {
       state.state = lockState::takeTool;
       state.takeToolTimeout = input.currentTime + config.takeToolTime;
     } else {
@@ -50,7 +50,7 @@ LockState nextState(const LockConfig &config, const LockState &current, const In
   // Starting up
   if (current.state == lockState::lockInit) {
     if (input.keyPresent) {
-      state.state = lockState::locked;
+      state.state = lockState::toolPresent;
     } else {
       state.state = lockState::toolTaken;
     }
@@ -63,15 +63,13 @@ LockState nextState(const LockConfig &config, const LockState &current, const In
   
   // Tool gets returned
   if (input.keyPresent && current.state == lockState::toolTaken){
-    state.state = lockState::locked;
+    state.state = lockState::toolPresent;
   }
       
-  // 
+  // Was unlocked but tool did not get taken
   if (input.currentTime > current.takeToolTimeout && current.state == lockState::takeTool) {
-    state.state = lockState::locked;
+    state.state = lockState::toolPresent;
   }
-
-  // TODO: check for statechange. If changed, send right away. Else only send every 5 seconds or so
 
   return state;
 }
