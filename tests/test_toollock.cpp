@@ -13,7 +13,7 @@ int main() {
     const Input keyPresent = { false, true, 0 };
 
     state = nextState(config, state, keyPresent);
-    assert(state.state == lockState::locked);
+    assert(state.state == lockState::toolPresent);
 
     const Input unlockWithKeyPresent = { true, true, 100 };
 
