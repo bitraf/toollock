@@ -47,7 +47,6 @@ The key and lock can be CNC-milled, lasercut or 3d-printed.
 
 v1.0: First fabricated version
 
-* Software: Support for multiple locks on one uC (4-5 pcs)
 * Electronics: Design PCB(s), millable
 * Mechanics: Complete lock module.
 Need way to attach PCB(s).
