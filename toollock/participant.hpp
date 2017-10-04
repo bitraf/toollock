@@ -3,6 +3,7 @@
 struct Config {
   const int sensorPin;
   const int lockPin;
+  const int statusPin;
   const LockConfig lockConfig;
 };
 
@@ -19,10 +20,11 @@ Input getInput(Config config, bool requestUnlock) {
   };
 }
 
-bool setOutput(Config config, msgflo::OutPort *statePort, State state, bool sendState) {
+bool setOutput(Config config, msgflo::OutPort *statePort, State state, bool sendState, bool keyPresent) {
 
   const bool unlock = (state.lock.state == lockState::takeTool);
   digitalWrite(config.lockPin, unlock);
+  digitalWrite(config.statusPin, keyPresent);
   if (sendState) {
     statePort->send(stateNames[state.lock.state]);
   }
@@ -45,7 +47,7 @@ State updateState(const Config &config, State current, msgflo::OutPort *statePor
     next.nextUpdateMessage = input.currentTime + 30*1000;
   }
 
-  setOutput(config, statePort, next, sendState);
+  setOutput(config, statePort, next, sendState, input.keyPresent);
 
   return next;
 }
@@ -60,9 +62,9 @@ public:
     const Config cfg;
 
 public:
-    ToolLockParticipant(const char *role, int sensor, int lock)
+    ToolLockParticipant(const char *role, int sensor, int lock, int led)
         : Participant("bitraf/ToolLock", role)
-        , cfg { sensor, lock }
+        , cfg { sensor, lock, led }
     {
       this->icon = "lock";
       
@@ -85,8 +87,9 @@ public:
     }
 
   void setup() {
-    pinMode(cfg.lockPin, OUTPUT);
     pinMode(cfg.sensorPin, INPUT);
+    pinMode(cfg.lockPin, OUTPUT);
+    pinMode(cfg.statusPin, OUTPUT);
     digitalWrite(cfg.lockPin, LOW);
   }
 

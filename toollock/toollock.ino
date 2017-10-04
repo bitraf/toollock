@@ -12,10 +12,9 @@
 
 // Configuration
 ToolLockParticipant participants[] = {
-  ToolLockParticipant("a001", D5, D0),
-  ToolLockParticipant("a002", D1, D2),
-  ToolLockParticipant("a003", D3, D4),
-  ToolLockParticipant("a004", D6, D7),
+  ToolLockParticipant("a001", D5, D0, D6),
+  ToolLockParticipant("a002", D1, D2, D3),
+  ToolLockParticipant("a003", D4, D7, D8),
 };
 
 static const char *MQTT_PREFIX = "public/toollock/";
