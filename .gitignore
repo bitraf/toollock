@@ -1,4 +1,6 @@
 Config.h
 node_modules/
 tests/test_toollock
+doc/*.dot
+doc/*.json
 *.fcstd1
