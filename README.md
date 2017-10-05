@@ -47,15 +47,11 @@ The key and lock can be CNC-milled, lasercut or 3d-printed.
 
 v1.0: First fabricated version
 
-* Electronics: Design PCB(s), millable
-* Mechanics: Complete lock module.
-Need way to attach PCB(s).
+* Electronics: Mill & verify PCB
+* Test light spread in transparent acrylic (2 mm)
+* Mechanics: Lasercut & verify tweaked design, incl PCB mounting
 * Tools/Mechanics: Write script(s) for generating key/lock geometry for a whole series, incl names.
 * Mechanics: Add a casing/box for 4-8 locks. Securely wall/table mountable.
-
-Maybe
-
-* Include a LED to show taken/not-state. Light when tool is there, or not?
 
 
 ## License
