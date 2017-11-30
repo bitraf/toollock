@@ -37,6 +37,11 @@ The key and lock can be CNC-milled, lasercut or 3d-printed.
 * IR led 0805, 120deg. [Kingbright kp-2012f3c](http://no.farnell.com/kingbright/kp-2012f3c/led-ir-0805-940nm/dp/2290432)
 * IR phototransistor 0805, 120 deg. [Kingbright kp-2012p3c](http://no.farnell.com/kingbright/kp-2012p3c/phototransistor-0805-940nm/dp/2290434)
 
+
+https://wiki.wemos.cc/products:d1:d1_mini
+https://github.com/esp8266/esp8266-wiki/wiki/Pin-definition
+
+
 ## Setup firmware
 
 * Install Arduino libraries [PubsubClient](https://github.com/knolleary/pubsubclient) and [Msgflo](https://github.com/msgflo/msgflo-arduino)
@@ -47,10 +52,8 @@ The key and lock can be CNC-milled, lasercut or 3d-printed.
 
 v1.0: First fabricated version
 
-* Electronics: Mill & verify PCB
-* Test light spread in transparent acrylic (2 mm)
 * Mechanics: Lasercut & verify tweaked design, incl PCB mounting
-* Tools/Mechanics: Write script(s) for generating key/lock geometry for a whole series, incl names.
+* Produce initial 4 locks
 * Mechanics: Add a casing/box for 4-8 locks. Securely wall/table mountable.
 
 
