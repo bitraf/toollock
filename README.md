@@ -52,7 +52,7 @@ https://github.com/esp8266/esp8266-wiki/wiki/Pin-definition
 
 v1.0: First fabricated version
 
-* Mechanics: Lasercut & verify tweaked design, incl PCB mounting
+* Mechanics: Verify that position of sensor on LED matches on PCB and lasercut pieces
 * Produce initial 4 locks
 * Mechanics: Add a casing/box for 4-8 locks. Securely wall/table mountable.
 
